@@ -9,10 +9,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Model\Addresses.db" />
     <None Remove="Model\Addresses.db-journal" />
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.Data.Sqlite" Version="9.0.7" />
     <PackageReference Include="Microsoft.Data.Sqlite.Core" Version="9.0.7" />
   </ItemGroup>
 
@@ -23,6 +25,12 @@
 
   <ItemGroup>
     <Page Include="App.xaml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Model\Addresses.db">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
 
 </Project>

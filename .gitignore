@@ -54,4 +54,5 @@ TestResult.xml
 nunit-*.xml
 
 # custom
-*.vs/
+.vs/
+PrescottOITShipping/.vs/
