@@ -8,7 +8,6 @@ namespace PrescottOITShipping.Model
   {
     private readonly SqliteConnection _connection;
     private static readonly string _sqliteFilename = "Addresses.db";
-    private readonly Dictionary<string, ShippingAddress> _shippingAddresses;
     public DatabaseReader()
     {
       // create our connection string
@@ -19,11 +18,9 @@ namespace PrescottOITShipping.Model
       };
       // create the connection with our connection string
       _connection = new SqliteConnection(connectionString.ToString());
-      // get our addresses
-      _shippingAddresses = GetRowsFromDatabase();
     }
 
-    private Dictionary<string, ShippingAddress> GetRowsFromDatabase()
+    public Dictionary<string, ShippingAddress> GetAddressesFromDatabase()
     {
       // the command to read all our rows
       string sqlCommand = "SELECT * FROM Addresses;";
@@ -47,7 +44,7 @@ namespace PrescottOITShipping.Model
           {
             // get the address name
             string name = reader.GetString(reader.GetOrdinal("name"));
-            // get the address data, create the address, and add the address object to our list
+            // get the address data, create the address, and add the address object to our dictionary
             addressDict.Add
             (
               name,
@@ -73,11 +70,8 @@ namespace PrescottOITShipping.Model
         Debug.WriteLine(addressDict[addressName].ToString());
       }
 
-      // return out filled list
+      // return our filled list
       return addressDict;
     }
-    // connect to db
-    // read db
-    // create objects
   }
 }

@@ -7,6 +7,8 @@
       mc:Ignorable="d"
       Title="MainWindow" Height="450" Width="800">
   <Grid>
+    <ComboBox x:Name="ComboBoxAddressName" HorizontalAlignment="Left" Height="26" Margin="10,10,0,0" VerticalAlignment="Top" Width="180" SelectionChanged="ComboBoxAddressName_SelectionChanged"/>
+    <TextBlock x:Name="TextBlockFullAddress" HorizontalAlignment="Left" Height="183" Margin="195,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="313"/>
 
   </Grid>
 </Window>
