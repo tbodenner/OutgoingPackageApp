@@ -5,10 +5,52 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:local="clr-namespace:PrescottOITShipping"
       mc:Ignorable="d"
-      Title="MainWindow" Height="450" Width="800">
+      Title="Prescott OIT Shipping" Height="200" Width="550" ResizeMode="NoResize"
+      WindowStartupLocation="CenterScreen">
   <Grid>
-    <ComboBox x:Name="ComboBoxAddressName" HorizontalAlignment="Left" Height="26" Margin="10,10,0,0" VerticalAlignment="Top" Width="180" SelectionChanged="ComboBoxAddressName_SelectionChanged"/>
-    <TextBlock x:Name="TextBlockFullAddress" HorizontalAlignment="Left" Height="183" Margin="195,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="313"/>
-
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="200"/>
+      <ColumnDefinition Width="*"/>
+    </Grid.ColumnDefinitions>
+    <StackPanel
+      Grid.Column="0">
+      <ComboBox
+        x:Name="ComboBoxAddressName"
+        VerticalContentAlignment="Center"
+        Height="26"
+        Margin="6,6,6,0"
+        Width="Auto"
+        SelectionChanged="ComboBoxAddressName_SelectionChanged"/>
+      <TextBox
+        x:Name="TextBoxFullName"
+        VerticalContentAlignment="Center"
+        Height="26"
+        Margin="6,6,6,0"
+        Width="Auto"
+        TextWrapping="Wrap"
+        Text="Full Name"
+        VerticalAlignment="Top"/>
+      <TextBox
+        x:Name="TextBoxUserEmail"
+        VerticalContentAlignment="Center"
+        Height="26"
+        Margin="6,6,6,0"
+        Width="Auto"
+        TextWrapping="Wrap"
+        Text="email"
+        VerticalAlignment="Top"/>
+    </StackPanel>
+    <GroupBox
+      Grid.Column="1"
+      Header="Ship To Address"
+      Margin="6,2,6,6">
+      <TextBlock
+        x:Name="TextBlockFullAddress"
+        Width="Auto"
+        Height="Auto"
+        TextWrapping="Wrap"
+        VerticalAlignment="Top"
+        Margin="6"/>
+    </GroupBox>
   </Grid>
 </Window>

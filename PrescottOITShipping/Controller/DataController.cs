@@ -6,20 +6,36 @@ namespace PrescottOITShipping.Controller
   {
     // our addresses read from the database
     private readonly Dictionary<string, ShippingAddress> _shippingAddresses;
+    // our database reader
+    private readonly DatabaseReader _dbReader;
+    // our directory reader
+    private readonly DirectoryReader _directoryReader;
     // constructor
     public DataController()
     {
       // create our database reader
-      DatabaseReader dbReader = new();
+      _dbReader = new();
       // read our addresses from our database
-      _shippingAddresses = dbReader.GetAddressesFromDatabase();
+      _shippingAddresses = _dbReader.GetAddressesFromDatabase();
+      // create our directory reader
+      _directoryReader = new();
     }
 
     // get the names of the addresses
     public List<string> GetAddressNames()
     {
-      // return our keys as a list of strings
-      return [.. _shippingAddresses.Keys];
+      // create our return list
+      List<string> names = [];
+      // loop through our address names
+      foreach (string name in _shippingAddresses.Keys)
+      {
+        // add each name to our list
+        names.Add(name);
+      }
+      // sort our list
+      names.Sort();
+      // return our list
+      return names;
     }
 
     // get a formatted address string
@@ -46,5 +62,18 @@ namespace PrescottOITShipping.Controller
         return string.Empty;
       }
     }
+
+    // get the full name of the user
+    public string GetUserFullName()
+    {
+      return $"{_directoryReader.FirstName} {_directoryReader.LastName}";
+    }
+
+    // get the email address for the user
+    public string GetUserEmailAddress ()
+    {
+      return _directoryReader.Email;
+    }
+
   }
 }

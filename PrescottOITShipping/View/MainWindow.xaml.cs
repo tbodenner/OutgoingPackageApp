@@ -19,15 +19,23 @@ namespace PrescottOITShipping
   public partial class MainWindow : Window
   {
     // our data controller
-    private DataController _controller;
+    private readonly DataController _controller;
     public MainWindow()
     {
       // create our data controller
       _controller = new();
       // initialize our window
       InitializeComponent();
+      // set our combobox's itemsource to our address names
       ComboBoxAddressName.ItemsSource = _controller.GetAddressNames();
+      // select the first address in our combobox
       ComboBoxAddressName.SelectedIndex = 0;
+      // set our user textbox
+      TextBoxFullName.Text = _controller.GetUserFullName();
+      TextBoxFullName.IsReadOnly = true;
+      // set our user email textbox
+      TextBoxUserEmail.Text = _controller.GetUserEmailAddress();
+      TextBoxUserEmail.IsReadOnly = true;
     }
 
     // change our address when our combobox selection changes
@@ -36,8 +44,7 @@ namespace PrescottOITShipping
       // check that our combobox and controller are not null
       if (sender is ComboBox comboBox && _controller != null)
       {
-        string? name = comboBox.SelectedItem as string;
-        if (name != null)
+        if (comboBox.SelectedItem is string name)
         {
           // get our text from out address
           string address = _controller.GetAddressString(name);
