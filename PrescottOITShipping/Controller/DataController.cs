@@ -70,7 +70,7 @@ namespace PrescottOITShipping.Controller
     }
 
     // get the email address for the user
-    public string GetUserEmailAddress ()
+    public string GetUserEmailAddress()
     {
       return _directoryReader.Email;
     }

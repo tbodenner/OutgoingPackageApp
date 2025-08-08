@@ -12,8 +12,8 @@
     // return the shipping formatted address
     override public string ToString()
     {
-        string nl = System.Environment.NewLine;
-        return $"{_name}{nl}{_address}{nl}{_city}, {_state} {_zipcode}";
+      string nl = System.Environment.NewLine;
+      return $"{_name}{nl}{_address}{nl}{_city}, {_state} {_zipcode}";
     }
   }
 }

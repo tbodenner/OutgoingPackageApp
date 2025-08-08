@@ -1,15 +1,7 @@
-﻿using System.Text;
+﻿using PrescottOITShipping.Controller;
+using PrescottOITShipping.View;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using PrescottOITShipping.Controller;
-using PrescottOITShipping.Model;
 
 namespace PrescottOITShipping
 {
@@ -36,21 +28,62 @@ namespace PrescottOITShipping
       // set our user email textbox
       TextBoxUserEmail.Text = _controller.GetUserEmailAddress();
       TextBoxUserEmail.IsReadOnly = true;
+      // make our address textbox read only
+      TextBoxFullAddress.IsEnabled = false;
     }
 
     // change our address when our combobox selection changes
     private void ComboBoxAddressName_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
+      // if our checkbox is checked, don't update our textbox on selection change
+      if (CheckBoxCustomAddress.IsChecked == true) { return; }
       // check that our combobox and controller are not null
       if (sender is ComboBox comboBox && _controller != null)
       {
         if (comboBox.SelectedItem is string name)
         {
           // get our text from out address
-          string address = _controller.GetAddressString(name);
-          TextBlockFullAddress.Text = address;
+          TextBoxFullAddress.Text = _controller.GetAddressString(name);
         }
       }
+    }
+
+    private void CheckBoxCustomAddress_CheckState(object sender, RoutedEventArgs e)
+    {
+      // check that our sender is the correct control
+      if (sender is CheckBox checkBox)
+      {
+        // check if our checkbox is checked
+        if (checkBox.IsChecked == true)
+        {
+          // if checked, enable our textbox
+          TextBoxFullAddress.IsEnabled = true;
+        }
+        // check if our checkbox is not checked
+        else if (checkBox.IsChecked == false)
+        {
+          // if not checked, disable our textbox
+          TextBoxFullAddress.IsEnabled = false;
+          // check if our combobox has a valid selection
+          if (ComboBoxAddressName.SelectedItem is string name)
+          {
+            // set our address from our combox's selected item
+            TextBoxFullAddress.Text = _controller.GetAddressString(name);
+          }
+        }
+      }
+    }
+
+    private void ButtonExit_Click(object sender, RoutedEventArgs e)
+    {
+      // exit our application
+      Application.Current.Shutdown();
+    }
+
+    private void ButtonPrint_Click(object sender, RoutedEventArgs e)
+    {
+      PrintWindow printWindow = new(this);
+      printWindow.ShowDialog();
     }
   }
 }
