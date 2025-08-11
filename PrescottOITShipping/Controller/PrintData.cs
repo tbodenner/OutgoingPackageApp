@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace PrescottOITShipping.Controller
+﻿namespace PrescottOITShipping.Controller
 {
   class PrintData(string location, string recipient, string address, string senderName, string senderEmail, bool returnLabel)
   {
@@ -20,5 +14,13 @@ namespace PrescottOITShipping.Controller
     private readonly string _senderEmail = senderEmail;
     // return label required
     private readonly bool _returnLabel = returnLabel;
+
+    // getters
+    public string Location { get { return _location; } }
+    public string Recipent { get { return _recipient; } }
+    public string Address { get { return _address; } }
+    public string SenderName { get { return _senderName; } }
+    public string SenderEmail { get { return _senderEmail; } }
+    public bool ReturnLabel { get { return _returnLabel; } }
   }
 }

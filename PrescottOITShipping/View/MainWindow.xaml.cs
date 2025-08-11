@@ -82,6 +82,31 @@ namespace PrescottOITShipping
 
     private void ButtonPrint_Click(object sender, RoutedEventArgs e)
     {
+      // get the data from our main window
+      string location;
+      string senderName = _controller.GetUserFullName();
+      string senderEmail = _controller.GetUserEmailAddress();
+      bool returnLabel = Convert.ToBoolean(CheckBoxReturnLabel.IsChecked);
+      string fullAddress = TextBoxFullAddress.Text;
+      string shipToName = $"ATTN: {TextBoxShipToPerson.Text}";
+
+      // check if our selected location is not a string
+      if (ComboBoxAddressName.SelectedItem is not string selectedLocation)
+      {
+        // this shouldn't happen if the selection is set on app startup, but we will check anyways
+        // create and show a message box
+        MessageBox.Show("Please select a location.", "No Location", MessageBoxButton.OK, MessageBoxImage.Error);
+        // don't do anything else
+        return;
+      }
+      else
+      {
+        // get the location from our combobox
+        location = Convert.ToString(selectedLocation.ToString());
+      }
+
+      PrintData printData = new(location, shipToName, fullAddress, senderName, senderEmail, returnLabel);
+
       PrintWindow printWindow = new(this);
       printWindow.ShowDialog();
     }
