@@ -38,12 +38,14 @@
         x:Name="ButtonPrint"
         Grid.Column="1"
         Margin="2"
-        Content="Print"/>
+        Content="Print"
+        Click="ButtonPrint_Click"/>
       <Button
-        x:Name="ButtonCancel"
+        x:Name="ButtonClose"
         Grid.Column="2"
         Margin="2"
-        Content="Cancel" Click="ButtonCancel_Click"/>
+        Content="Close"
+        Click="ButtonClose_Click"/>
     </Grid>
   </Grid>
 </Window>

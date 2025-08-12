@@ -1,7 +1,9 @@
 ﻿using PrescottOITShipping.Controller;
+using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
+using System.Windows.Markup;
 using System.Windows.Media;
 
 namespace PrescottOITShipping.View
@@ -47,7 +49,7 @@ namespace PrescottOITShipping.View
     private void AddPrintDataToRichTextBox()
     {
       // add our recipient
-      AddRichText(new FontFamily("Arial"), false, GetFontSize(20), Brushes.Black, _printController.Recipient);
+      AddRichText(new FontFamily("Arial"), false, GetFontSize(20), Brushes.Black, $"ATTN: {_printController.Recipient}");
       // add our location
       //AddRichText(new FontFamily("Arial"), GetFontSize(12), Brushes.Black, printData.Location);
       // add our address
@@ -62,7 +64,7 @@ namespace PrescottOITShipping.View
         // add our return label requested line
         AddRichText(new FontFamily("Arial"), true, GetFontSize(12), Brushes.Black, "Return Label Requested");
       }
-      
+
       // add a break
       AddRichText(new FontFamily("Arial"), false, GetFontSize(30), Brushes.Black, " ");
 
@@ -102,10 +104,50 @@ namespace PrescottOITShipping.View
       }
     }
 
-    private void ButtonCancel_Click(object sender, RoutedEventArgs e)
+    private static FlowDocument? CloneDocument(FlowDocument document)
+    {
+      // check if our document is null, if null, return a null
+      if (document == null) { return null; }
+
+      // serialize the document to xaml
+      string documentXaml = XamlWriter.Save(document);
+
+      // load our xaml into a memory stream
+      using MemoryStream stream = new(System.Text.Encoding.UTF8.GetBytes(documentXaml));
+      // create a new document by deserializing the xaml
+      FlowDocument clonedDocument = (FlowDocument)XamlReader.Load(stream);
+      // return the cloned document
+      return clonedDocument;
+    }
+
+    private void ButtonClose_Click(object sender, RoutedEventArgs e)
     {
       // close the window
       this.Close();
+    }
+
+    private void ButtonPrint_Click(object sender, RoutedEventArgs e)
+    {
+      // create our print dialog
+      PrintDialog printDialog = new();
+      
+      // show the dialog
+      if (printDialog.ShowDialog() == true)
+      {
+        // if the user chosses to print
+        // clone our document
+        FlowDocument? document = CloneDocument(RichTextBoxPrintPreview.Document);
+        // check if our document is not null
+        if (document != null)
+        {
+          // set our document's page padding
+          document.PagePadding = new(2*96);
+          // create our paginator
+          IDocumentPaginatorSource pageSource = document;
+          // print our document
+          printDialog.PrintDocument(pageSource.DocumentPaginator, "Prescott OIT Shipping");
+        }
+      }
     }
   }
 }
