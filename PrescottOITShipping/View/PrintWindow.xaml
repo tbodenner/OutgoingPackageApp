@@ -7,8 +7,8 @@
   xmlns:local="clr-namespace:PrescottOITShipping.View"
   mc:Ignorable="d"
   Title="Shipping Print Preview"
-  Height="450"
-  Width="800"
+  Height="350"
+  Width="600"
   WindowStartupLocation="CenterOwner"
   ResizeMode="NoResize">
   <Grid>
@@ -43,7 +43,7 @@
         x:Name="ButtonCancel"
         Grid.Column="2"
         Margin="2"
-        Content="Cancel"/>
+        Content="Cancel" Click="ButtonCancel_Click"/>
     </Grid>
   </Grid>
 </Window>

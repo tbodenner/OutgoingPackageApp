@@ -10,26 +10,32 @@ namespace PrescottOITShipping
   /// </summary>
   public partial class MainWindow : Window
   {
-    // our data controller
-    private readonly DataController _controller;
+    // our database controller
+    private readonly DatabaseController _databaseController;
+    // our print controller
+    private readonly PrintController _printController;
     public MainWindow()
     {
-      // create our data controller
-      _controller = new();
+      // create our database controller
+      _databaseController = new();
+      // create our print controller
+      _printController = new(_databaseController);
       // initialize our window
       InitializeComponent();
       // set our combobox's itemsource to our address names
-      ComboBoxAddressName.ItemsSource = _controller.GetAddressNames();
+      ComboBoxAddressName.ItemsSource = _databaseController.AddressNames;
       // select the first address in our combobox
       ComboBoxAddressName.SelectedIndex = 0;
       // set our user textbox
-      TextBoxFullName.Text = _controller.GetUserFullName();
+      //TextBoxFullName.Text = _controller.GetUserFullName();
       TextBoxFullName.IsReadOnly = true;
       // set our user email textbox
-      TextBoxUserEmail.Text = _controller.GetUserEmailAddress();
+      //TextBoxUserEmail.Text = _controller.GetUserEmailAddress();
       TextBoxUserEmail.IsReadOnly = true;
       // make our address textbox read only
       TextBoxFullAddress.IsEnabled = false;
+      // set our data context
+      this.DataContext = _printController;
     }
 
     // change our address when our combobox selection changes
@@ -38,12 +44,12 @@ namespace PrescottOITShipping
       // if our checkbox is checked, don't update our textbox on selection change
       if (CheckBoxCustomAddress.IsChecked == true) { return; }
       // check that our combobox and controller are not null
-      if (sender is ComboBox comboBox && _controller != null)
+      if (sender is ComboBox comboBox && _databaseController != null)
       {
         if (comboBox.SelectedItem is string name)
         {
           // get our text from out address
-          TextBoxFullAddress.Text = _controller.GetAddressString(name);
+          _printController.Address = _databaseController.Addresses[name].ToString();
         }
       }
     }
@@ -68,7 +74,7 @@ namespace PrescottOITShipping
           if (ComboBoxAddressName.SelectedItem is string name)
           {
             // set our address from our combox's selected item
-            TextBoxFullAddress.Text = _controller.GetAddressString(name);
+            TextBoxFullAddress.Text = _databaseController.Addresses[name].ToString();
           }
         }
       }
@@ -82,32 +88,32 @@ namespace PrescottOITShipping
 
     private void ButtonPrint_Click(object sender, RoutedEventArgs e)
     {
-      // get the data from our main window
-      string location;
-      string senderName = _controller.GetUserFullName();
-      string senderEmail = _controller.GetUserEmailAddress();
-      bool returnLabel = Convert.ToBoolean(CheckBoxReturnLabel.IsChecked);
-      string fullAddress = TextBoxFullAddress.Text;
-      string shipToName = $"ATTN: {TextBoxShipToPerson.Text}";
-
+      /*
       // check if our selected location is not a string
       if (ComboBoxAddressName.SelectedItem is not string selectedLocation)
       {
         // this shouldn't happen if the selection is set on app startup, but we will check anyways
         // create and show a message box
-        MessageBox.Show("Please select a location.", "No Location", MessageBoxButton.OK, MessageBoxImage.Error);
+        MessageBox.Show("Select a location.", "Location Error", MessageBoxButton.OK, MessageBoxImage.Error);
         // don't do anything else
         return;
       }
-      else
+      */
+
+      if (TextBoxShipToPerson.Text == string.Empty || TextBoxShipToPerson.Text == "Recipient Name")
       {
-        // get the location from our combobox
-        location = Convert.ToString(selectedLocation.ToString());
+        // create and show a message box
+        MessageBox.Show("Add a recipient name.", "Recipient Error", MessageBoxButton.OK, MessageBoxImage.Error);
+        // focus the textbox
+        TextBoxShipToPerson.Focus();
+        // select all the text in the textbox
+        TextBoxShipToPerson.SelectAll();
+        // don't do anything else
+        return;
       }
-
-      PrintData printData = new(location, shipToName, fullAddress, senderName, senderEmail, returnLabel);
-
-      PrintWindow printWindow = new(this);
+      // create our window
+      PrintWindow printWindow = new(this, _printController);
+      // show our window as a dialog window
       printWindow.ShowDialog();
     }
   }
