@@ -69,6 +69,14 @@
           Height="26"
           VerticalContentAlignment="Center"
           Margin="6,2,2,0"/>
+        <Label
+          x:Name="LabelPrinterName"
+          Content="{Binding PrinterName}"
+          Grid.Column="0"
+          Grid.Row="1"
+          Height="26"
+          VerticalContentAlignment="Center"
+          Margin="2,2,2,0"/>
         <Button
           x:Name="ButtonPrint"
           Grid.Column="1"

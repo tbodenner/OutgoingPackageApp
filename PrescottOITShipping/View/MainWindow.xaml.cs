@@ -26,11 +26,9 @@ namespace PrescottOITShipping
       ComboBoxAddressName.ItemsSource = _databaseController.AddressNames;
       // select the first address in our combobox
       ComboBoxAddressName.SelectedIndex = 0;
-      // set our user textbox
-      //TextBoxFullName.Text = _controller.GetUserFullName();
+      // make our user textbox to read only
       TextBoxFullName.IsReadOnly = true;
-      // set our user email textbox
-      //TextBoxUserEmail.Text = _controller.GetUserEmailAddress();
+      // make our user email textbox to read only
       TextBoxUserEmail.IsReadOnly = true;
       // make our address textbox read only
       TextBoxFullAddress.IsEnabled = false;
@@ -88,18 +86,7 @@ namespace PrescottOITShipping
 
     private void ButtonPrint_Click(object sender, RoutedEventArgs e)
     {
-      /*
-      // check if our selected location is not a string
-      if (ComboBoxAddressName.SelectedItem is not string selectedLocation)
-      {
-        // this shouldn't happen if the selection is set on app startup, but we will check anyways
-        // create and show a message box
-        MessageBox.Show("Select a location.", "Location Error", MessageBoxButton.OK, MessageBoxImage.Error);
-        // don't do anything else
-        return;
-      }
-      */
-
+      // check our recipient
       if (TextBoxShipToPerson.Text == string.Empty || TextBoxShipToPerson.Text == "Recipient Name")
       {
         // create and show a message box
@@ -111,10 +98,20 @@ namespace PrescottOITShipping
         // don't do anything else
         return;
       }
-      // create our window
-      PrintWindow printWindow = new(this, _printController);
-      // show our window as a dialog window
-      printWindow.ShowDialog();
+
+      // check if we are quick printing
+      if (_printController.QuickPrint == true)
+      {
+        // create our document and print it
+        PrintController.PrintDocument(_printController.QuickPrint, _printController.CreateDocument(), _printController.Margin);
+      }
+      else
+      {
+        // otherwise, create our window add our document
+        PrintWindow printWindow = new(this, _printController.CreateDocument(), _printController.Margin);
+        // show our window as a dialog window
+        printWindow.ShowDialog();
+      }
     }
   }
 }
