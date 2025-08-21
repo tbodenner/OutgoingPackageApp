@@ -18,6 +18,12 @@ namespace PrescottOITShipping.Controller
     {
       // create our database reader
       _dbReader = new();
+      // check if our reader is was created
+      if (_dbReader == null)
+      {
+        // throw an exception
+        throw new NullReferenceException("Unable to create DatabaseReader.");
+      }
       // read our addresses from our database
       _shippingAddresses = _dbReader.GetAddressesFromDatabase();
       // create our directory reader

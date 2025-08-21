@@ -5,7 +5,6 @@
   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
   xmlns:local="clr-namespace:PrescottOITShipping"
   mc:Ignorable="d"
-  DataContext="{Binding RelativeSource={RelativeSource Self}}"
   Title="Prescott OIT Shipping"
   Height="227"
   Width="550"
@@ -32,7 +31,6 @@
         Margin="6,6,6,0"
         Width="Auto"
         TextWrapping="Wrap"
-        Text="{Binding SenderName}"
         VerticalAlignment="Top"/>
       <TextBox
         x:Name="TextBoxUserEmail"
@@ -41,13 +39,11 @@
         Margin="6,6,6,0"
         Width="Auto"
         TextWrapping="Wrap"
-        Text="{Binding SenderEmail}"
         VerticalAlignment="Top"/>
       <CheckBox
         x:Name="CheckBoxReturnLabel"
         Content="Request Return Label"
         VerticalContentAlignment="Center"
-        IsChecked="{Binding ReturnLabel}"
         Height="26"
         VerticalAlignment="Top"
         Margin="6,6,6,0"/>
@@ -62,7 +58,6 @@
         </Grid.RowDefinitions>
         <CheckBox
           x:Name="CheckBoxQuickPrint"
-          IsChecked="{Binding QuickPrint}"
           Grid.Column="0"
           Grid.Row="0"
           Content="Quick Print"
@@ -71,7 +66,6 @@
           Margin="6,2,2,0"/>
         <Label
           x:Name="LabelPrinterName"
-          Content="{Binding PrinterName}"
           Grid.Column="0"
           Grid.Row="1"
           Height="26"
@@ -115,12 +109,10 @@
             x:Name="TextBoxShipToPerson"
             VerticalContentAlignment="Center"
             Height="26"
-            Margin="6,0,6,0"
-            Text="{Binding Recipient}"/>
+            Margin="6,0,6,0"/>
           <TextBox
             Grid.Row="1"
             x:Name="TextBoxFullAddress"
-            Text="{Binding Address}"
             Width="Auto"
             Height="Auto"
             TextWrapping="Wrap"

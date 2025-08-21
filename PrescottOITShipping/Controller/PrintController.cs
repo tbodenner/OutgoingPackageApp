@@ -11,9 +11,6 @@ namespace PrescottOITShipping.Controller
 {
   public class PrintController : INotifyPropertyChanged
   {
-    // our data controller
-    private readonly DatabaseController _dataController;
-
     // data bindings
     // location
     private string _location;
@@ -33,37 +30,57 @@ namespace PrescottOITShipping.Controller
     private bool _quickPrint;
 
     // default printer
-    private readonly string _printerName = string.Empty;
+    private readonly string _printerName;
     // set our margin to 2 inches - print padding is measured in 1/96th of an inch
-    private readonly Thickness _margin = new(2 * 96);
+    private readonly Thickness _margin;
 
     // constructor
-    public PrintController(DatabaseController dataController)
+    public PrintController(string userName, string userEmail)
     {
-      // set our data controller
-      _dataController = dataController;
-
       // initialize our properties
-      _location = _dataController.AddressNames[0];
+      _location = string.Empty;
       _recipient = "Recipient Name";
-      _address = _dataController.Addresses[_location].ToString();
-      _senderName = _dataController.UserFullName;
-      _senderEmail = _dataController.UserEmailAddress;
+      _address = string.Empty;
+      _senderName = userName;
+      _senderEmail = userEmail;
       _returnLabel = true;
       _customAddress = false;
       _quickPrint = false;
+      _margin = new(2 * 96);
 
-      // get our printer settings
-      PrinterSettings printSettings = new();
-      // get our default printer
-      string printerName = printSettings.PrinterName;
-      // split our printer string
-      string[] splitName = printerName.Trim('\\').Split('\\');
-      // check if we have one or more strings
-      if (splitName.Length >= 1)
+      try
       {
-        // get the printer's name
-        _printerName = splitName[1];
+        // get our printer settings
+        PrinterSettings printSettings = new();
+        // get our default printer
+        string printerName = printSettings.PrinterName;
+        // check if our printer name has a slash
+        if (printerName.Contains('\\'))
+        {
+          // if it does, split our printer string
+          string[] splitName = printerName.Trim('\\').Split('\\');
+          // check if we have one or more strings
+          if (splitName != null && splitName.Length >= 1)
+          {
+            // get the printer's name
+            _printerName = splitName[1];
+          }
+          else
+          {
+            // something went wrong with our split, so set our string to empty
+            _printerName = string.Empty;
+          }
+        }
+        else
+        {
+          // otherwise, set our printer name
+          _printerName = printerName;
+        }
+      }
+      catch
+      {
+        // on any errors our string will be empty
+        _printerName = string.Empty;
       }
     }
 

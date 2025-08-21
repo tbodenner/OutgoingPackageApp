@@ -1,7 +1,7 @@
 ﻿namespace PrescottOITShipping.Model
 {
   // store each part of an address
-  public class ShippingAddress(string name, string address, string state, string city, string zip)
+  public class ShippingAddress(string name, string address, string city, string state, string zip)
   {
     // properties
     private readonly string _name = name;

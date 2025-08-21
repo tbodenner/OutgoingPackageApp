@@ -1,6 +1,6 @@
 ﻿using Microsoft.Data.Sqlite;
 using System.Diagnostics;
-using System.Windows;
+using System.IO;
 
 namespace PrescottOITShipping.Model
 {
@@ -10,14 +10,23 @@ namespace PrescottOITShipping.Model
     private static readonly string _sqliteFilename = "Addresses.db";
     public DatabaseReader()
     {
-      // create our connection string
-      //string connectionString = $"Data Source={_sqliteFilename}";
-      SqliteConnectionStringBuilder connectionString = new()
+      // check if our databse file exist
+      if (File.Exists(_sqliteFilename))
       {
-        DataSource = _sqliteFilename
-      };
-      // create the connection with our connection string
-      _connection = new SqliteConnection(connectionString.ToString());
+        // create our connection string
+        SqliteConnectionStringBuilder connectionString = new()
+        {
+          DataSource = _sqliteFilename,
+          Mode = SqliteOpenMode.ReadOnly
+        };
+        // create the connection with our connection string
+        _connection = new SqliteConnection(connectionString.ToString());
+      }
+      else
+      {
+        // throw an exception
+        throw new FileNotFoundException($"Unable to find database file '{_sqliteFilename}'.");
+      }
     }
 
     public Dictionary<string, ShippingAddress> GetAddressesFromDatabase()
@@ -62,7 +71,7 @@ namespace PrescottOITShipping.Model
       }
       catch (Exception ex)
       {
-        MessageBox.Show(ex.Message, "GetRowsFromDatabase Error", MessageBoxButton.OK, MessageBoxImage.Error);
+        throw new Exception("GetRowsFromDatabase Error", ex);
       }
 
       foreach (string addressName in addressDict.Keys)
