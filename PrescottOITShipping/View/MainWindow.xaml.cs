@@ -118,6 +118,9 @@ namespace PrescottOITShipping
         CheckBoxQuickPrint.DataContext = _printController;
         CheckBoxQuickPrint.SetBinding(CheckBox.IsCheckedProperty, new Binding("QuickPrint"));
 
+        CheckBoxPrintLandscape.DataContext = _printController;
+        CheckBoxPrintLandscape.SetBinding(CheckBox.IsCheckedProperty, new Binding("Landscape"));
+
         LabelPrinterName.DataContext = _printController;
         LabelPrinterName.SetBinding(Label.ContentProperty, new Binding("PrinterName"));
 
@@ -204,12 +207,12 @@ namespace PrescottOITShipping
         if (_printController.QuickPrint == true)
         {
           // create our document and print it
-          PrintController.PrintDocument(_printController.QuickPrint, _printController.CreateDocument(), _printController.Margin);
+          PrintController.PrintDocument(_printController.QuickPrint, _printController.CreateDocument(), _printController.Margin, _printController.Landscape);
         }
         else
         {
           // otherwise, create our window add our document
-          PrintWindow printWindow = new(this, _printController.CreateDocument(), _printController.Margin);
+          PrintWindow printWindow = new(this, _printController.CreateDocument(), _printController.Margin, _printController.Landscape);
           // show our window as a dialog window
           printWindow.ShowDialog();
         }

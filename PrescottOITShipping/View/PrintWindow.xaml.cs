@@ -14,8 +14,10 @@ namespace PrescottOITShipping.View
     private readonly FlowDocument _document;
     // our page margin
     private readonly Thickness _margin;
+    // our print direction
+    private readonly bool _landscape;
     // constructor
-    public PrintWindow(Window owner, FlowDocument document, Thickness margin)
+    public PrintWindow(Window owner, FlowDocument document, Thickness margin, bool landscape)
     {
       // initialize our interface objects
       InitializeComponent();
@@ -25,6 +27,8 @@ namespace PrescottOITShipping.View
       _document = document;
       // set our margin
       _margin = margin;
+      // set our print direction
+      _landscape = landscape;
       // set our richtextbox's document
       this.RichTextBoxPrintPreview.Document = document;
     }
@@ -38,7 +42,7 @@ namespace PrescottOITShipping.View
     private void ButtonPrint_Click(object sender, RoutedEventArgs e)
     {
       // print our document
-      PrintController.PrintDocument(false, _document, _margin);
+      PrintController.PrintDocument(false, _document, _margin, _landscape);
       // close the window
       this.Close();
     }

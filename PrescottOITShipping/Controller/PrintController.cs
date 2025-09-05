@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Drawing.Printing;
 using System.IO;
+using System.Printing;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
@@ -28,6 +29,8 @@ namespace PrescottOITShipping.Controller
     private bool _customAddress;
     // quick print checkbox
     private bool _quickPrint;
+    // landscape checkbox
+    private bool _landscape;
 
     // default printer
     private readonly string _printerName;
@@ -46,6 +49,7 @@ namespace PrescottOITShipping.Controller
       _returnLabel = true;
       _customAddress = false;
       _quickPrint = false;
+      _landscape = false;
       _margin = new(2 * 96);
 
       try
@@ -128,7 +132,7 @@ namespace PrescottOITShipping.Controller
       return document;
     }
 
-    public static void PrintDocument(bool quickPrint, FlowDocument document, Thickness margin)
+    public static void PrintDocument(bool quickPrint, FlowDocument document, Thickness margin, bool landscape)
     {
       // create our print dialog
       PrintDialog printDialog = new();
@@ -148,6 +152,12 @@ namespace PrescottOITShipping.Controller
       {
         // set our document's page padding
         clonedDocument.PagePadding = margin;
+        // check if we are printing in landscape
+        if (landscape == true)
+        {
+          // set our print direction
+          printDialog.PrintTicket.PageOrientation = PageOrientation.Landscape;
+        }
         // create our paginator
         IDocumentPaginatorSource pageSource = clonedDocument;
         // print our document
@@ -288,6 +298,18 @@ namespace PrescottOITShipping.Controller
         {
           _quickPrint = value;
           OnPropertyChanged(nameof(QuickPrint));
+        }
+      }
+    }
+    public bool Landscape
+    {
+      get { return _landscape; }
+      set
+      {
+        if (_landscape != value)
+        {
+          _landscape = value;
+          OnPropertyChanged(nameof(Landscape));
         }
       }
     }
