@@ -150,6 +150,7 @@
             Width="Auto"
             Height="Auto"
             TextWrapping="Wrap"
+            AcceptsReturn="True"
             VerticalAlignment="Stretch"
             HorizontalAlignment="Stretch"
             Margin="2"/>
