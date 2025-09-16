@@ -1,0 +1,15 @@
+﻿<Project Sdk="WixToolset.Sdk/6.0.2">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <SuppressValidation>true</SuppressValidation>
+	<SuppressPdbOutput>true</SuppressPdbOutput>
+  </PropertyGroup>
+  <PropertyGroup>
+    <PackageCode Condition="'$(PackageCode)' == ''">
+      $([System.Guid]::NewGuid())
+    </PackageCode>
+    <DefineConstants>PackageCode=$(PackageCode)</DefineConstants>
+  </PropertyGroup>
+  <ItemGroup>
+    <WixSource Include="Package.wxs" />
+  </ItemGroup>
+</Project>

@@ -1,0 +1,24 @@
+<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs">
+  <Fragment>
+    <ComponentGroup Id="PrescottOITShippingComponents" Directory="INSTALLFOLDER">
+      <Component Guid="{D4B4268E-6371-4087-A3E2-E0A725F07ED5}">
+        <File Source="..\PrescottOITShipping\bin\Release\net8.0-windows10.0.26100.0\publish\win-x64\Addresses.db" />
+        <File Source="..\PrescottOITShipping\bin\Release\net8.0-windows10.0.26100.0\publish\win-x64\e_sqlite3.dll" />
+        <File Id="EXECUTABLE" Source="..\PrescottOITShipping\bin\Release\net8.0-windows10.0.26100.0\publish\win-x64\PrescottOITShipping.exe">
+          <Shortcut
+            Name="Prescott OIT Shipping"
+            IconIndex="0"
+            WorkingDirectory="INSTALLFOLDER"
+            Description="Prescott OIT Shipping"
+            Directory="DesktopFolder"/>
+          <Shortcut
+            Name="Prescott OIT Shipping"
+            IconIndex="0"
+            WorkingDirectory="INSTALLFOLDER"
+            Description="Prescott OIT Shipping"
+            Directory="StartMenuFolder"/>
+        </File>
+      </Component>
+    </ComponentGroup>
+  </Fragment>
+</Wix>

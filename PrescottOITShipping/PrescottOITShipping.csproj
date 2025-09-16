@@ -10,6 +10,9 @@
     <SupportedOSPlatformVersion>10.0.26100.0</SupportedOSPlatformVersion>
     <StartupObject>PrescottOITShipping.App</StartupObject>
     <PlatformTarget>x64</PlatformTarget>
+    <VersionPrefix>$([System.DateTime]::Now.ToString('yy')).$([System.DateTime]::Now.ToString('MM')).$([System.DateTime]::Now.ToString('dd')).$([System.DateTime]::Now.ToString('HHmm'))</VersionPrefix>
+    <VersionSuffix></VersionSuffix>
+    <Authors>Prescott OIT</Authors>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

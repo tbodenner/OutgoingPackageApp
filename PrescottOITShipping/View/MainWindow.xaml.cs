@@ -1,5 +1,6 @@
 ﻿using PrescottOITShipping.Controller;
 using PrescottOITShipping.View;
+using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -134,6 +135,17 @@ namespace PrescottOITShipping
       {
         // show the error
         MessageBox.Show($"Failed to set data bindings.\n{ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+      }
+
+      // get our version number and add it to our window's title
+      Assembly assembly = Assembly.GetExecutingAssembly();
+      if (assembly != null)
+      {
+        Version? version = assembly.GetName().Version;
+        if (version != null)
+        {
+          Title = $"{Title} v{version}";
+        }
       }
     }
 

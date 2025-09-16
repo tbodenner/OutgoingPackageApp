@@ -1,0 +1,18 @@
+﻿<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs">
+  <Package
+    UpgradeCode="{10AA669B-EA09-4488-8CF0-0DA5D641E5DB}"
+    Id="$(PackageCode)"
+    Name="Prescott OIT Shipping"
+    Manufacturer="Prescott OIT"
+    Version="!(bind.FileVersion.EXECUTABLE)"
+    Scope="perUser">
+    <MajorUpgrade
+      DowngradeErrorMessage="!(loc.DowngradeError)"
+      AllowSameVersionUpgrades="yes"
+      Schedule="afterInstallInitialize" />
+    <MediaTemplate EmbedCab="yes"/>
+    <Feature Id="Main">
+      <ComponentGroupRef Id="PrescottOITShippingComponents" />
+    </Feature>
+  </Package>
+</Wix>
